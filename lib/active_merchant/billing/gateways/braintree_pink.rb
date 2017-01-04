@@ -417,6 +417,7 @@ module ActiveMerchant #:nodoc:
 
       def create_transaction(transaction_type, money, credit_card_or_vault_id, options)
         transaction_params = create_transaction_parameters(money, credit_card_or_vault_id, options)
+        Logger.info transaction_params
         commit do
           result = @braintree_gateway.transaction.send(transaction_type, transaction_params)
           response = Response.new(result.success?, message_from_transaction_result(result), response_params(result), response_options(result))
