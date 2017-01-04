@@ -535,7 +535,7 @@ module ActiveMerchant #:nodoc:
           },
           :options => {
             :submit_for_settlement => options[:submit_for_settlement],
-            :store_in_vault_on_success => options[:store] ? true : false,
+            :store_in_vault_on_success => options[:store_in_vault_on_success] ? true : false,
             :hold_in_escrow => options[:hold_in_escrow],
             :paypal => {
               :custom_field => options[:custom_field],

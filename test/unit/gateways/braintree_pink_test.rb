@@ -138,32 +138,20 @@ class BraintreePinkTest < Test::Unit::TestCase
     @gateway.authorize(100, credit_card("41111111111111111111"), :hold_in_escrow => true)
   end
 
+  def test_store_in_vault_on_success_can_be_specified
+    Braintree::TransactionGateway.any_instance.expects(:sale).with do |params|
+      (params[:options][:store_in_vault_on_success] == true)
+    end.returns(braintree_result)
+
+    @gateway.authorize(100, credit_card("41111111111111111111"), :store_in_vault_on_success => true)
+  end
+
   def test_merchant_account_id_absent_if_not_provided
     Braintree::TransactionGateway.any_instance.expects(:sale).with do |params|
       not params.has_key?(:merchant_account_id)
     end.returns(braintree_result)
 
     @gateway.authorize(100, credit_card("41111111111111111111"))
-  end
-
-  def test_verification_merchant_account_id_exists_when_verify_card_and_merchant_account_id
-    gateway = BraintreePinkGateway.new(
-      :access_token => 'access_token$sandbox$nb8654qnrrw3jwkn$3deb3954ecdc555eb2e6a35dc1c08650'
-    )
-    customer = stub(
-      :credit_cards => [stub_everything],
-      :email => 'email',
-      :first_name => 'John',
-      :last_name => 'Smith'
-    )
-    customer.stubs(:id).returns('123')
-    result = Braintree::SuccessfulResult.new(:customer => customer)
-
-    Braintree::CustomerGateway.any_instance.expects(:create).with do |params|
-      'merchant_account_id' == params[:credit_card][:options][:verification_merchant_account_id]
-    end.returns(result)
-
-    gateway.store(credit_card('41111111111111111111'), :verify_card => true)
   end
 
   def test_merchant_account_id_can_be_set_by_options
@@ -545,17 +533,6 @@ class BraintreePinkTest < Test::Unit::TestCase
       assert_equal logger, internal_gateway.config.logger
       assert_equal Logger::DEBUG, internal_gateway.config.logger.level
     end
-  end
-
-  def test_solution_id_is_added_to_create_transaction_parameters
-    assert_nil @gateway.send(:create_transaction_parameters, 100, credit_card("41111111111111111111"),{})[:channel]
-    ActiveMerchant::Billing::BraintreePinkGateway.application_id = 'ABC123'
-    assert_equal @gateway.send(:create_transaction_parameters, 100, credit_card("41111111111111111111"),{})[:channel], "ABC123"
-
-    gateway = BraintreePinkGateway.new(:access_token => 'access_token$sandbox$nb8654qnrrw3jwkn$3deb3954ecdc555eb2e6a35dc1c08650', channel: "overidden-channel")
-    assert_equal gateway.send(:create_transaction_parameters, 100, credit_card("41111111111111111111"),{})[:channel], "overidden-channel"
-  ensure
-    ActiveMerchant::Billing::BraintreePinkGateway.application_id = nil
   end
 
   def test_successful_purchase_with_descriptor
