@@ -43,6 +43,7 @@ module ActiveMerchant #:nodoc:
       self.display_name = 'Braintree (Pink Platform)'
 
       def initialize(options = {})
+        puts "initializing with options #{options}"
         requires!(options, :access_token)
         @merchant_account_id = options[:merchant_account_id]
 
