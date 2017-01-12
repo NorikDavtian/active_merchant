@@ -296,6 +296,8 @@ module ActiveMerchant #:nodoc:
       def map_address(address)
         return {} if address.nil?
         mapped = {
+          :first_name => address[:first_name],
+          :last_name => address[:last_name],
           :street_address => address[:address1],
           :extended_address => address[:address2],
           :company => address[:company],
@@ -422,6 +424,7 @@ module ActiveMerchant #:nodoc:
           result = @braintree_gateway.transaction.send(transaction_type, transaction_params)
           response = Response.new(result.success?, message_from_transaction_result(result), response_params(result), response_options(result))
           response.cvv_result['message'] = ''
+          response[:raw_gateway_response] = result.transaction
           response
         end
       end
