@@ -424,7 +424,6 @@ module ActiveMerchant #:nodoc:
           result = @braintree_gateway.transaction.send(transaction_type, transaction_params)
           response = Response.new(result.success?, message_from_transaction_result(result), response_params(result), response_options(result))
           response.cvv_result['message'] = ''
-          response[:raw] = result.to_json
           response
         end
       end
@@ -517,6 +516,7 @@ module ActiveMerchant #:nodoc:
         }
 
         {
+          "transaction"             => transaction,
           "order_id"                => transaction.order_id,
           "status"                  => transaction.status,
           "credit_card_details"     => credit_card_details,
