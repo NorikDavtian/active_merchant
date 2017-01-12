@@ -24,7 +24,7 @@ module ActiveMerchant #:nodoc:
     #
     # Setting an ActiveMerchant +wiredump_device+ will automatically
     # configure the Braintree logger (via the Braintree gem's
-    # configuration) when the BraintreeBlueGateway is instantiated.
+    # configuration) when the BraintreePinkGateway is instantiated.
     # Additionally, the log level will be set to +DEBUG+. Therefore,
     # all you have to do is set the +wiredump_device+ and you'll get
     # your debug output from your HTTP interactions with the remote
@@ -37,10 +37,10 @@ module ActiveMerchant #:nodoc:
     # +Braintree::Configuration.logger+ will be cloned and the log
     # level set to +WARN+.
     #
-    class BraintreeBlueGateway < Gateway
+    class BraintreePinkGateway < Gateway
       include BraintreeCommon
 
-      self.display_name = 'Braintree (Blue Platform)'
+      self.display_name = 'Braintree (Pink Platform)'
 
       def initialize(options = {})
         requires!(options, :access_token)
