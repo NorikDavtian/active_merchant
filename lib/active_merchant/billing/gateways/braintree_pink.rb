@@ -351,7 +351,6 @@ module ActiveMerchant #:nodoc:
 
       def response_options(result)
         options = {}
-        options[:raw_gateway_response] = result
         if result.transaction
           options[:authorization] = result.transaction.id
           options[:avs_result] = { code: avs_code_from(result.transaction) }
@@ -425,6 +424,7 @@ module ActiveMerchant #:nodoc:
           result = @braintree_gateway.transaction.send(transaction_type, transaction_params)
           response = Response.new(result.success?, message_from_transaction_result(result), response_params(result), response_options(result))
           response.cvv_result['message'] = ''
+          response[:raw] = result.stringify_keys
           response
         end
       end
