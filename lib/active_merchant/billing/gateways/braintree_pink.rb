@@ -346,6 +346,7 @@ module ActiveMerchant #:nodoc:
         params = {}
         params[:customer_vault_id] = result.transaction.customer_details.id if result.success?
         params[:braintree_transaction] = transaction_hash(result)
+        params[:raw_gateway_response] = result.transaction
         params
       end
 
@@ -424,7 +425,6 @@ module ActiveMerchant #:nodoc:
           result = @braintree_gateway.transaction.send(transaction_type, transaction_params)
           response = Response.new(result.success?, message_from_transaction_result(result), response_params(result), response_options(result))
           response.cvv_result['message'] = ''
-          response['raw_gateway_response'] = result.transaction
           response
         end
       end
