@@ -471,6 +471,7 @@ module ActiveMerchant #:nodoc:
         end
 
         transaction = result.transaction
+        puts transaction
         if transaction.vault_customer
           vault_customer = {
           }
