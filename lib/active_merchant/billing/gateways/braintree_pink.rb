@@ -136,7 +136,6 @@ module ActiveMerchant #:nodoc:
           options.merge!(:update_existing_token => braintree_credit_card.token)
           credit_card_params = merge_credit_card_options({
                                                              :credit_card => {
-                                                                 :token => creditcard.token,
                                                                  :cardholder_name => creditcard.name,
                                                                  :number => creditcard.number,
                                                                  :cvv => creditcard.verification_value,
@@ -471,7 +470,6 @@ module ActiveMerchant #:nodoc:
         end
 
         transaction = result.transaction
-        puts transaction.inspect
         if transaction.vault_customer
           vault_customer = {
           }
@@ -515,8 +513,7 @@ module ActiveMerchant #:nodoc:
             "bin"                 => transaction.credit_card_details.bin,
             "last_4"              => transaction.credit_card_details.last_4,
             "card_type"           => transaction.credit_card_details.card_type,
-            "token"               => transaction.credit_card_details.token,
-            "token2"              => result.credit_card.token
+            "token"               => transaction.credit_card_details.token
         }
 
         {
