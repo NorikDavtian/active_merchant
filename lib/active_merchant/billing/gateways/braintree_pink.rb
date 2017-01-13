@@ -471,7 +471,7 @@ module ActiveMerchant #:nodoc:
         end
 
         transaction = result.transaction
-        puts 'Transaction from gem #{transaction.inspect}'
+        puts transaction.inspect
         if transaction.vault_customer
           vault_customer = {
           }
@@ -515,7 +515,8 @@ module ActiveMerchant #:nodoc:
             "bin"                 => transaction.credit_card_details.bin,
             "last_4"              => transaction.credit_card_details.last_4,
             "card_type"           => transaction.credit_card_details.card_type,
-            "token"               => transaction.credit_card_details.token
+            "token"               => transaction.credit_card_details.token,
+            "token2"              => result.credit_card.token
         }
 
         {
