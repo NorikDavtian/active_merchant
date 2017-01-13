@@ -471,7 +471,7 @@ module ActiveMerchant #:nodoc:
         end
 
         transaction = result.transaction
-        puts transaction
+        puts 'Transaction from gem #{transaction.inspect}'
         if transaction.vault_customer
           vault_customer = {
           }
