@@ -4,7 +4,7 @@ module ActiveMerchant #:nodoc:
     end
 
     class Response
-      attr_reader :params, :message, :test, :authorization, :avs_result, :cvv_result, :error_code, :emv_authorization
+      attr_reader :params, :message, :test, :authorization, :transaction_id, :avs_result, :cvv_result, :error_code, :emv_authorization
 
       def success?
         @success
@@ -22,6 +22,7 @@ module ActiveMerchant #:nodoc:
         @success, @message, @params = success, message, params.stringify_keys
         @test = options[:test] || false
         @authorization = options[:authorization]
+        @transaction_id = options[:transaction_id]
         @fraud_review = options[:fraud_review]
         @error_code = options[:error_code]
         @emv_authorization = options[:emv_authorization]
@@ -80,7 +81,7 @@ module ActiveMerchant #:nodoc:
         (primary_response ? primary_response.success? : true)
       end
 
-      %w(params message test authorization avs_result cvv_result error_code emv_authorization test? fraud_review?).each do |m|
+      %w(params message test authorization transaction_id avs_result cvv_result error_code emv_authorization test? fraud_review?).each do |m|
         class_eval %(
           def #{m}
             (@responses.empty? ? nil : primary_response.#{m})
