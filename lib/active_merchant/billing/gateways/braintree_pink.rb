@@ -516,7 +516,7 @@ module ActiveMerchant #:nodoc:
         }
 
         {
-          "transaction"             => transaction,
+          "transaction"             => transaction.to_json,
           "order_id"                => transaction.order_id,
           "status"                  => transaction.status,
           "credit_card_details"     => credit_card_details,
