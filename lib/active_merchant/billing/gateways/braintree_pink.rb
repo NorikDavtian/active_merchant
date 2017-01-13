@@ -489,6 +489,8 @@ module ActiveMerchant #:nodoc:
         }
 
         billing_details = {
+          "first_name"       => transaction.billing_details.first_name,
+          "last_name"        => transaction.billing_details.last_name,
           "street_address"   => transaction.billing_details.street_address,
           "extended_address" => transaction.billing_details.extended_address,
           "company"          => transaction.billing_details.company,
@@ -499,6 +501,8 @@ module ActiveMerchant #:nodoc:
         }
 
         shipping_details = {
+          "first_name"       => transaction.shipping_details.first_name,
+          "last_name"        => transaction.shipping_details.last_name,
           "street_address"   => transaction.shipping_details.street_address,
           "extended_address" => transaction.shipping_details.extended_address,
           "company"          => transaction.shipping_details.company,
@@ -539,6 +543,7 @@ module ActiveMerchant #:nodoc:
           },
           :options => {
             :store_in_vault => options[:store] ? true : false,
+            :store_in_vault_on_success => options[:store_in_vault_on_success],
             :submit_for_settlement => options[:submit_for_settlement],
             :hold_in_escrow => options[:hold_in_escrow]
           }
